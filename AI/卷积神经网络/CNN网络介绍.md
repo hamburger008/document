@@ -23,12 +23,12 @@ VGG 的主要工作是证明增加网络的深度能够在一定程度上影响�
 ###### 3 GoogLeNet
 
 ```
-GoogLeNet 是经典卷积网络，使用 1x1 卷积核进行降维，降低了计算量。 
+GoogLeNet 是经典卷积网络，引入了 Inception 模块（使用多个尺寸的卷积核并行计算，所以融合了不同尺度的特征信息）,使用 1x1 卷积核(可以看作通道维度全连接)进行降维，降低了计算量,添加了两个辅助分类器来辅助训练。
 ```
 
 
 
-
+![image](../../Images/Inception.png)
 
 
 
@@ -61,8 +61,4 @@ Deep Residual Network，深度残差网络,由微软实验室的何凯明等人�
 ###### 1 MobileNet
 ###### 2 shuffleNet
 ###### 3 GhostNet
-
-
-
-
 
