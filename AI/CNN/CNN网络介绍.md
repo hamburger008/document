@@ -126,6 +126,9 @@ SEblock 引入的是一种叫做通道注意力机制。
 以下是 pytorch 代码实现:
 ```
 ```python
+### SEnet 块的 Pytorch 代码实现
+import torch
+import torch.nn as nn
 class SEnet(nn.Module):
     def __init__(self, in_channels, reduction=16):
         super(SEnet, self).__init__()
