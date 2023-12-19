@@ -35,6 +35,67 @@ GoogLeNet 是经典卷积网络，引入了 Inception 模块。
 
 ![image](../../Images/Inception.jpg)
 
+```python
+### Inception 块的 Pytorch 代码实现
+import torch
+import torch.nn as nn
+
+class Inception(nn.Module):
+    def __init__(self, in_channels, out_channels):
+        super(Inception, self).__init__()
+        
+        # Branch 1
+        self.branch1_conv1 = nn.Conv2d(in_channels, out_channels[0], kernel_size=1)
+        
+        # Branch 2
+        self.branch2_conv1 = nn.Conv2d(in_channels, out_channels[1], kernel_size=1)
+        self.branch2_conv2 = nn.Conv2d(out_channels[1], out_channels[2], kernel_size=3, padding=1)
+        
+        # Branch 3
+        self.branch3_conv1 = nn.Conv2d(in_channels, out_channels[3], kernel_size=1)
+        self.branch3_conv2 = nn.Conv2d(out_channels[3], out_channels[4], kernel_size=5, padding=2)
+        
+        # Branch 4
+        self.branch4_pool = nn.MaxPool2d(kernel_size=3, stride=1, padding=1)
+        self.branch4_conv1 = nn.Conv2d(in_channels, out_channels[5], kernel_size=1)
+        
+    def forward(self, x):
+        # Branch 1
+        branch1 = self.branch1_conv1(x)
+        
+        # Branch 2
+        branch2 = self.branch2_conv1(x)
+        branch2 = self.branch2_conv2(branch2)
+        
+        # Branch 3
+        branch3 = self.branch3_conv1(x)
+        branch3 = self.branch3_conv2(branch3)
+        
+        # Branch 4
+        branch4 = self.branch4_pool(x)
+        branch4 = self.branch4_conv1(branch4)
+        
+        # Concatenate branches along the channel dimension
+        outputs = [branch1, branch2, branch3, branch4]
+        return torch.cat(outputs, dim=1)
+    
+
+### 以下是进行测试 Inception class 使用
+    
+# 创建一个 Inception 模型对象
+inception = Inception(in_channels=3, out_channels=[16, 24, 32, 8, 16, 16])
+
+# 创建一个输入张量（ 假设输入图像大小为 3x224x224）
+input_tensor = torch.randn(5, 3, 224, 224)
+
+# 将输入张量传递给模型进行前向传播
+output_tensor = inception(input_tensor)
+# 打印输出张量的形状
+print("Output shape:", output_tensor.shape)
+```
+
+
+
 4 ResNet
 
 ```python
